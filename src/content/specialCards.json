@@ -1,0 +1,5 @@
+{
+  "warmup": { "id": "warmup", "type": "special", "label": "Warm-up superpower", "iconKey": "star", "spokenText": "Warm-up time! Show me your Twinkle superpower. You already know this one!", "grownUpTurn": false },
+  "concert": { "id": "concert", "type": "special", "label": "Concert", "iconKey": "stage", "spokenText": "Concert time! Everyone is in their seats. Play your song for the whole audience!", "grownUpTurn": false },
+  "comeback": { "id": "comeback", "type": "special", "label": "Just one note", "iconKey": "oneNote", "spokenText": "Can you help me with just one note? Just one. Ready?", "grownUpTurn": false }
+}

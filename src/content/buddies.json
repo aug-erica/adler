@@ -1,0 +1,6 @@
+[
+  { "animal": "fox", "spoken": "a fox", "defaultName": "Pip" },
+  { "animal": "bunny", "spoken": "a bunny", "defaultName": "Hops" },
+  { "animal": "owl", "spoken": "an owl", "defaultName": "Hoot" },
+  { "animal": "turtle", "spoken": "a turtle", "defaultName": "Shelly" }
+]

@@ -1,0 +1,12 @@
+[
+  { "id": "twinkle", "title": "Twinkle Variations A–D and Theme", "bookOrder": 1, "status": "owned" },
+  { "id": "lightly-row", "title": "Lightly Row", "bookOrder": 2, "status": "working" },
+  { "id": "honeybee", "title": "The Honeybee", "bookOrder": 3, "status": "preview" },
+  { "id": "cuckoo", "title": "Cuckoo", "bookOrder": 4, "status": "upcoming" },
+  { "id": "french-childrens-song", "title": "French Children's Song", "bookOrder": 5, "status": "upcoming" },
+  { "id": "london-bridge", "title": "London Bridge", "bookOrder": 6, "status": "upcoming" },
+  { "id": "mary", "title": "Mary Had a Little Lamb", "bookOrder": 7, "status": "upcoming" },
+  { "id": "aunt-rhody", "title": "Go Tell Aunt Rhody", "bookOrder": 8, "status": "upcoming" },
+  { "id": "au-clair", "title": "Au Clair de la Lune", "bookOrder": 9, "status": "upcoming" },
+  { "id": "long-long-ago", "title": "Long, Long Ago", "bookOrder": 10, "status": "upcoming" }
+]

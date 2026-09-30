@@ -1,0 +1,162 @@
+[
+  {
+    "id": "voice-mouse",
+    "type": "voice",
+    "label": "Sleepy mouse",
+    "iconKey": "mouse",
+    "spokenText": "Mission: play it like a sleepy little mouse. Tiny and quiet.",
+    "grownUpTurn": false
+  },
+  {
+    "id": "voice-dino",
+    "type": "voice",
+    "label": "Stomping dinosaur",
+    "iconKey": "dino",
+    "spokenText": "Mission: play it like a big stomping dinosaur. Stomp, stomp!",
+    "grownUpTurn": false
+  },
+  {
+    "id": "voice-cat",
+    "type": "voice",
+    "label": "Tiptoeing cat",
+    "iconKey": "cat",
+    "spokenText": "Mission: play it like a cat on tiptoes. Sneaky and soft.",
+    "grownUpTurn": false
+  },
+  {
+    "id": "voice-robot",
+    "type": "voice",
+    "label": "Robot",
+    "iconKey": "robot",
+    "spokenText": "Mission: play it like a robot. Beep, boop, every note just so.",
+    "grownUpTurn": false
+  },
+  {
+    "id": "voice-bird",
+    "type": "voice",
+    "label": "Little bird",
+    "iconKey": "bird",
+    "spokenText": "Mission: play it like a little bird singing in a tree.",
+    "grownUpTurn": false
+  },
+  {
+    "id": "aud-bear",
+    "type": "audience",
+    "label": "For the bear",
+    "iconKey": "bear",
+    "spokenText": "Mission: play it for the bear. He wants to hear your song.",
+    "grownUpTurn": false
+  },
+  {
+    "id": "aud-fish",
+    "type": "audience",
+    "label": "For the fish",
+    "iconKey": "fish",
+    "spokenText": "Mission: play it for the fish. The fish will swim to the music.",
+    "grownUpTurn": false
+  },
+  {
+    "id": "aud-goblin",
+    "type": "audience",
+    "label": "Make the Goblin sleepy",
+    "iconKey": "goblin",
+    "spokenText": "Mission: play it for the grumpy Goblin. Can your song make him fall asleep?",
+    "grownUpTurn": false
+  },
+  {
+    "id": "aud-buddy",
+    "type": "audience",
+    "label": "For your buddy",
+    "iconKey": "buddy",
+    "spokenText": "Mission: play it just for me, {buddy}. I will listen with both ears.",
+    "grownUpTurn": false
+  },
+  {
+    "id": "aud-moon",
+    "type": "audience",
+    "label": "For the moon",
+    "iconKey": "moon",
+    "spokenText": "Mission: play it for the moon, way up high in the sky.",
+    "grownUpTurn": false
+  },
+  {
+    "id": "focus-hand",
+    "type": "focus",
+    "label": "Watch your hand",
+    "iconKey": "rainbowHand",
+    "spokenText": "Mission: watch your hand the whole time, like a detective.",
+    "grownUpTurn": false
+  },
+  {
+    "id": "focus-count",
+    "type": "focus",
+    "label": "Count the notes",
+    "iconKey": "count",
+    "spokenText": "Mission: count the notes out loud as you play. One, two, three!",
+    "grownUpTurn": false
+  },
+  {
+    "id": "focus-eyes",
+    "type": "focus",
+    "label": "Eyes closed at the end",
+    "iconKey": "eyesClosed",
+    "spokenText": "Mission: play it, and close your eyes for the very last note.",
+    "grownUpTurn": false
+  },
+  {
+    "id": "focus-ears",
+    "type": "focus",
+    "label": "Listen closely",
+    "iconKey": "ear",
+    "spokenText": "Mission: play it with super listening ears. Hear every note.",
+    "grownUpTurn": false
+  },
+  {
+    "id": "role-teacher",
+    "type": "role",
+    "label": "Be the teacher",
+    "iconKey": "teacher",
+    "spokenText": "Mission: the grown-up plays first, and you are the teacher! Watch and check. Then you show how it's done.",
+    "grownUpTurn": true
+  },
+  {
+    "id": "role-guess",
+    "type": "role",
+    "label": "Guessing game",
+    "iconKey": "question",
+    "spokenText": "Mission: think of a secret animal and play like it. The grown-up has to guess!",
+    "grownUpTurn": false
+  },
+  {
+    "id": "silly-statue",
+    "type": "silly",
+    "label": "Freeze like a statue",
+    "iconKey": "statue",
+    "spokenText": "Mission: play it, then freeze like a statue at the end. Don't move!",
+    "grownUpTurn": false
+  },
+  {
+    "id": "silly-teddy",
+    "type": "silly",
+    "label": "Teddy on the piano",
+    "iconKey": "teddy",
+    "spokenText": "Mission: put a stuffed animal on the piano. Play it for your little friend.",
+    "grownUpTurn": false
+  },
+  {
+    "id": "silly-crown",
+    "type": "silly",
+    "label": "Play like a king",
+    "iconKey": "crown",
+    "spokenText": "Mission: play it like a king in a big castle. Very fancy!",
+    "grownUpTurn": false
+  },
+  {
+    "id": "silly-rocket",
+    "type": "silly",
+    "label": "Rocket countdown",
+    "iconKey": "rocket",
+    "spokenText": "Mission: rocket launch! Say three, two, one, blast off, then play it.",
+    "grownUpTurn": false
+  }
+]

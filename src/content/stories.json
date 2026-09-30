@@ -1,0 +1,647 @@
+[
+  {
+    "id": "ep1-bag-of-songs",
+    "seriesOrder": 1,
+    "title": "The Bag of Songs",
+    "pages": [
+      {
+        "text": "This is {buddy}. This is {child}. They live by a big green hill. One day, a grumpy Goblin came. The Goblin said SHHH!",
+        "scene": {
+          "bg": "meadow",
+          "items": [
+            {
+              "art": "sun",
+              "x": 340,
+              "y": 70,
+              "s": 60
+            },
+            {
+              "art": "tree",
+              "x": 60,
+              "y": 215,
+              "s": 110
+            },
+            {
+              "art": "buddy",
+              "x": 150,
+              "y": 215,
+              "s": 90
+            },
+            {
+              "art": "goblin",
+              "x": 290,
+              "y": 215,
+              "s": 95,
+              "flip": true
+            }
+          ]
+        }
+      },
+      {
+        "text": "The Goblin did not like music. He put all the songs in a big bag. The Goblin said SHHH!",
+        "scene": {
+          "bg": "meadow",
+          "items": [
+            {
+              "art": "goblin",
+              "x": 170,
+              "y": 215,
+              "s": 110
+            },
+            {
+              "art": "bag",
+              "x": 270,
+              "y": 215,
+              "s": 80
+            },
+            {
+              "art": "notes",
+              "x": 270,
+              "y": 130,
+              "s": 50
+            }
+          ]
+        }
+      },
+      {
+        "text": "But {child} can play the piano! {child} played a song. Pop! One note flew out of the bag.",
+        "scene": {
+          "bg": "meadow",
+          "items": [
+            {
+              "art": "piano",
+              "x": 110,
+              "y": 215,
+              "s": 110
+            },
+            {
+              "art": "bag",
+              "x": 290,
+              "y": 215,
+              "s": 80
+            },
+            {
+              "art": "note",
+              "x": 250,
+              "y": 110,
+              "s": 40
+            },
+            {
+              "art": "buddy",
+              "x": 200,
+              "y": 215,
+              "s": 70
+            }
+          ]
+        }
+      },
+      {
+        "text": "The note landed on a flower. The flower began to sing. La, la, la!",
+        "scene": {
+          "bg": "meadow",
+          "items": [
+            {
+              "art": "flower",
+              "x": 200,
+              "y": 215,
+              "s": 110
+            },
+            {
+              "art": "note",
+              "x": 245,
+              "y": 95,
+              "s": 36
+            },
+            {
+              "art": "note",
+              "x": 150,
+              "y": 80,
+              "s": 30
+            },
+            {
+              "art": "buddy",
+              "x": 320,
+              "y": 215,
+              "s": 70,
+              "flip": true
+            }
+          ]
+        }
+      },
+      {
+        "text": "The Goblin stomped his feet. Stomp, stomp! But {child} played on. Pop, pop! Two more notes flew out.",
+        "scene": {
+          "bg": "meadow",
+          "items": [
+            {
+              "art": "goblin",
+              "x": 120,
+              "y": 215,
+              "s": 100
+            },
+            {
+              "art": "bag",
+              "x": 260,
+              "y": 215,
+              "s": 80
+            },
+            {
+              "art": "note",
+              "x": 230,
+              "y": 100,
+              "s": 36
+            },
+            {
+              "art": "note",
+              "x": 300,
+              "y": 80,
+              "s": 36
+            }
+          ]
+        }
+      },
+      {
+        "text": "The notes flew to the bear. The bear began to dance. \"I love that song!\" said the bear.",
+        "scene": {
+          "bg": "meadow",
+          "items": [
+            {
+              "art": "tree",
+              "x": 340,
+              "y": 215,
+              "s": 110
+            },
+            {
+              "art": "bear",
+              "x": 190,
+              "y": 215,
+              "s": 120
+            },
+            {
+              "art": "notes",
+              "x": 90,
+              "y": 100,
+              "s": 50
+            }
+          ]
+        }
+      },
+      {
+        "text": "All the songs flew home. The Goblin sat on a rock. His toe went tap, tap, tap. Just a little bit!",
+        "scene": {
+          "bg": "meadow",
+          "items": [
+            {
+              "art": "sun",
+              "x": 60,
+              "y": 70,
+              "s": 60
+            },
+            {
+              "art": "rock",
+              "x": 230,
+              "y": 225,
+              "s": 90
+            },
+            {
+              "art": "goblin",
+              "x": 230,
+              "y": 180,
+              "s": 90
+            },
+            {
+              "art": "notes",
+              "x": 330,
+              "y": 90,
+              "s": 50
+            },
+            {
+              "art": "buddy",
+              "x": 100,
+              "y": 215,
+              "s": 70
+            }
+          ]
+        }
+      }
+    ],
+    "cliffhanger": "But the Goblin has a new plan. What is it? We'll find out tomorrow!"
+  },
+  {
+    "id": "ep2-fish-song",
+    "seriesOrder": 2,
+    "title": "The Fish Who Lost Her Song",
+    "pages": [
+      {
+        "text": "The Goblin's new plan was sneaky. He tiptoed to the pond. The Goblin said SHHH!",
+        "scene": {
+          "bg": "pond",
+          "items": [
+            {
+              "art": "tree",
+              "x": 50,
+              "y": 158,
+              "s": 100
+            },
+            {
+              "art": "goblin",
+              "x": 180,
+              "y": 158,
+              "s": 90
+            }
+          ]
+        }
+      },
+      {
+        "text": "In the pond lived a little fish. The fish liked to sing bubble songs. Blub, blub, la!",
+        "scene": {
+          "bg": "pond",
+          "items": [
+            {
+              "art": "fish",
+              "x": 220,
+              "y": 230,
+              "s": 90
+            },
+            {
+              "art": "bubbles",
+              "x": 270,
+              "y": 190,
+              "s": 50
+            },
+            {
+              "art": "note",
+              "x": 300,
+              "y": 150,
+              "s": 30
+            }
+          ]
+        }
+      },
+      {
+        "text": "The Goblin put a big lid on the pond. Now the fish could not sing. The Goblin said SHHH!",
+        "scene": {
+          "bg": "pond",
+          "items": [
+            {
+              "art": "lid",
+              "x": 250,
+              "y": 190,
+              "s": 150
+            },
+            {
+              "art": "goblin",
+              "x": 110,
+              "y": 158,
+              "s": 90
+            }
+          ]
+        }
+      },
+      {
+        "text": "{buddy} ran to get {child}. \"Help! The fish needs a song!\" {child} played. The lid went wiggle, wiggle.",
+        "scene": {
+          "bg": "pond",
+          "items": [
+            {
+              "art": "buddy",
+              "x": 80,
+              "y": 158,
+              "s": 80
+            },
+            {
+              "art": "lid",
+              "x": 250,
+              "y": 185,
+              "s": 150,
+              "wiggle": true
+            },
+            {
+              "art": "note",
+              "x": 170,
+              "y": 90,
+              "s": 34
+            }
+          ]
+        }
+      },
+      {
+        "text": "{child} played a soft song. The lid went up, up, up!",
+        "scene": {
+          "bg": "pond",
+          "items": [
+            {
+              "art": "lid",
+              "x": 260,
+              "y": 110,
+              "s": 130
+            },
+            {
+              "art": "notes",
+              "x": 140,
+              "y": 90,
+              "s": 50
+            },
+            {
+              "art": "fish",
+              "x": 260,
+              "y": 235,
+              "s": 60
+            }
+          ]
+        }
+      },
+      {
+        "text": "Out came the fish! She did a flip. Splash! \"Thank you, {child}!\" said the fish.",
+        "scene": {
+          "bg": "pond",
+          "items": [
+            {
+              "art": "fish",
+              "x": 220,
+              "y": 150,
+              "s": 90
+            },
+            {
+              "art": "splash",
+              "x": 220,
+              "y": 200,
+              "s": 90
+            },
+            {
+              "art": "buddy",
+              "x": 80,
+              "y": 158,
+              "s": 70
+            }
+          ]
+        }
+      },
+      {
+        "text": "The fish sang a bubble song for everyone. Even the Goblin had to smile. Then he said, \"Hmph!\"",
+        "scene": {
+          "bg": "pond",
+          "items": [
+            {
+              "art": "fish",
+              "x": 250,
+              "y": 235,
+              "s": 80
+            },
+            {
+              "art": "bubbles",
+              "x": 300,
+              "y": 190,
+              "s": 50
+            },
+            {
+              "art": "goblin",
+              "x": 90,
+              "y": 158,
+              "s": 85
+            },
+            {
+              "art": "buddy",
+              "x": 170,
+              "y": 158,
+              "s": 65
+            }
+          ]
+        }
+      }
+    ],
+    "cliffhanger": "That night, the Goblin could not sleep. Why not? Let's find out tomorrow!"
+  },
+  {
+    "id": "ep3-goblin-cant-sleep",
+    "seriesOrder": 3,
+    "title": "The Goblin Can't Sleep",
+    "pages": [
+      {
+        "text": "It was night. The moon was up. But the Goblin could not sleep. The Goblin said... YAWN!",
+        "scene": {
+          "bg": "night",
+          "items": [
+            {
+              "art": "moon",
+              "x": 330,
+              "y": 80,
+              "s": 70
+            },
+            {
+              "art": "bed",
+              "x": 200,
+              "y": 215,
+              "s": 150
+            },
+            {
+              "art": "goblin",
+              "x": 200,
+              "y": 185,
+              "s": 80
+            }
+          ]
+        }
+      },
+      {
+        "text": "The Goblin tossed and turned. \"It is too quiet!\" said the Goblin. \"I can't sleep!\"",
+        "scene": {
+          "bg": "night",
+          "items": [
+            {
+              "art": "moon",
+              "x": 60,
+              "y": 70,
+              "s": 60
+            },
+            {
+              "art": "bed",
+              "x": 220,
+              "y": 215,
+              "s": 150
+            },
+            {
+              "art": "goblin",
+              "x": 220,
+              "y": 185,
+              "s": 80,
+              "flip": true
+            }
+          ]
+        }
+      },
+      {
+        "text": "{buddy} had an idea. \"A song can help you sleep!\" The Goblin said, \"SHHH! No songs!\"",
+        "scene": {
+          "bg": "night",
+          "items": [
+            {
+              "art": "moon",
+              "x": 340,
+              "y": 70,
+              "s": 60
+            },
+            {
+              "art": "buddy",
+              "x": 120,
+              "y": 215,
+              "s": 85
+            },
+            {
+              "art": "goblin",
+              "x": 270,
+              "y": 215,
+              "s": 90,
+              "flip": true
+            }
+          ]
+        }
+      },
+      {
+        "text": "{child} played a soft song, like a sleepy mouse. The Goblin's eyes went droopy.",
+        "scene": {
+          "bg": "night",
+          "items": [
+            {
+              "art": "piano",
+              "x": 100,
+              "y": 215,
+              "s": 100
+            },
+            {
+              "art": "mouse",
+              "x": 190,
+              "y": 215,
+              "s": 55
+            },
+            {
+              "art": "notes",
+              "x": 200,
+              "y": 100,
+              "s": 45
+            },
+            {
+              "art": "goblin",
+              "x": 300,
+              "y": 215,
+              "s": 90,
+              "sleepy": true
+            }
+          ]
+        }
+      },
+      {
+        "text": "A little bird sang along. Tweet, tweet! The stars began to twinkle.",
+        "scene": {
+          "bg": "night",
+          "items": [
+            {
+              "art": "tree",
+              "x": 90,
+              "y": 215,
+              "s": 130
+            },
+            {
+              "art": "bird",
+              "x": 110,
+              "y": 120,
+              "s": 45
+            },
+            {
+              "art": "star",
+              "x": 250,
+              "y": 70,
+              "s": 36
+            },
+            {
+              "art": "star",
+              "x": 320,
+              "y": 110,
+              "s": 30
+            },
+            {
+              "art": "star",
+              "x": 200,
+              "y": 40,
+              "s": 26
+            }
+          ]
+        }
+      },
+      {
+        "text": "The Goblin gave a big yawn. \"That song is... nice,\" he said. His eyes went shut.",
+        "scene": {
+          "bg": "night",
+          "items": [
+            {
+              "art": "moon",
+              "x": 330,
+              "y": 70,
+              "s": 60
+            },
+            {
+              "art": "bed",
+              "x": 200,
+              "y": 215,
+              "s": 150
+            },
+            {
+              "art": "goblin",
+              "x": 200,
+              "y": 185,
+              "s": 80,
+              "sleepy": true
+            },
+            {
+              "art": "note",
+              "x": 110,
+              "y": 110,
+              "s": 30
+            }
+          ]
+        }
+      },
+      {
+        "text": "The Goblin fell fast asleep. Snore, snore! {child} and {buddy} smiled. Music wins!",
+        "scene": {
+          "bg": "night",
+          "items": [
+            {
+              "art": "moon",
+              "x": 60,
+              "y": 70,
+              "s": 60
+            },
+            {
+              "art": "bed",
+              "x": 150,
+              "y": 215,
+              "s": 150
+            },
+            {
+              "art": "goblin",
+              "x": 150,
+              "y": 185,
+              "s": 80,
+              "sleepy": true
+            },
+            {
+              "art": "zzz",
+              "x": 200,
+              "y": 120,
+              "s": 50
+            },
+            {
+              "art": "buddy",
+              "x": 320,
+              "y": 215,
+              "s": 80,
+              "flip": true
+            }
+          ]
+        }
+      }
+    ],
+    "cliffhanger": "When the Goblin wakes up, he will have a surprise. What could it be? Tomorrow we'll see!"
+  }
+]

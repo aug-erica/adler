@@ -1,0 +1,74 @@
+[
+  {
+    "id": "rainbow-hand",
+    "label": "Rainbow hand",
+    "iconKey": "rainbowHand",
+    "spokenPrompt": "Keep your rainbow hand, nice and round.",
+    "praiseLines": [
+      "Your rainbow hand stayed round the whole time!",
+      "I saw a perfect rainbow over the keys!",
+      "Your fingers stood up tall like a rainbow bridge.",
+      "Round hand, all the way to the last note!"
+    ]
+  },
+  {
+    "id": "soft-sound",
+    "label": "Soft sound",
+    "iconKey": "feather",
+    "spokenPrompt": "Make a soft, gentle sound, like a feather.",
+    "praiseLines": [
+      "That was so soft, like a feather landing!",
+      "You made a gentle sound on every note.",
+      "Your quiet notes were beautiful.",
+      "I had to lean in to hear it. So soft!"
+    ]
+  },
+  {
+    "id": "steady-beat",
+    "label": "Steady beat",
+    "iconKey": "drum",
+    "spokenPrompt": "Keep a steady beat, like a ticking clock.",
+    "praiseLines": [
+      "Your beat was steady like a clock!",
+      "Every note came right on time.",
+      "You kept the beat all the way through.",
+      "Tick, tock, tick, tock. So steady!"
+    ]
+  },
+  {
+    "id": "eyes-on-keys",
+    "label": "Eyes on the keys",
+    "iconKey": "eyes",
+    "spokenPrompt": "Keep your eyes on the keys.",
+    "praiseLines": [
+      "Your eyes stayed on the keys the whole time!",
+      "You watched your fingers like a detective.",
+      "Great looking! You found every key.",
+      "Eagle eyes on every note!"
+    ]
+  },
+  {
+    "id": "relaxed-thumb",
+    "label": "Relaxed thumb",
+    "iconKey": "thumb",
+    "spokenPrompt": "Let your thumb be soft and relaxed.",
+    "praiseLines": [
+      "Your thumb stayed soft and floppy. Nice!",
+      "What a relaxed thumb!",
+      "Your thumb played gently on its side.",
+      "Soft thumb the whole way!"
+    ]
+  },
+  {
+    "id": "posture",
+    "label": "Posture",
+    "iconKey": "tallTree",
+    "spokenPrompt": "Sit up tall like a tree.",
+    "praiseLines": [
+      "You sat up tall like a tree!",
+      "Great sitting! Feet still and back tall.",
+      "You looked like a real concert pianist.",
+      "Tall and strong the whole time!"
+    ]
+  }
+]

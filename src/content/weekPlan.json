@@ -1,0 +1,26 @@
+{
+  "weekOf": "2026-10-05",
+  "focusRepsPerChunk": 5,
+  "warmup": {
+    "pieceId": "twinkle",
+    "label": "Twinkle (any variation he picks)"
+  },
+  "chunks": [
+    {
+      "id": "lr-line-1",
+      "pieceId": "lightly-row",
+      "label": "Lightly Row, first line",
+      "goalId": "rainbow-hand",
+      "sizes": {
+        "full": "First line (bars 1–4)",
+        "half": "Bars 1–2 only",
+        "tiny": "First 4 notes only"
+      }
+    }
+  ],
+  "concert": {
+    "pieceId": "lightly-row",
+    "label": "Lightly Row, as far as he can go"
+  },
+  "lessonNotes": "Placeholder: confirm this week's chunk and goal with Nina."
+}
