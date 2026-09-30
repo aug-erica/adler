@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
-import { db, loadChild, loadCurrentSession, nextStoryIndex, saveChild, saveCurrentSession, setKV } from './db'
-import { stories } from './content'
+import { db, getKV, loadChild, loadCurrentSession, nextStoryIndex, saveChild, saveCurrentSession, setKV } from './db'
+import { setActiveWeekPlan, stories } from './content'
 import { createSession, reduce, type Action } from './session'
-import type { Child, SessionState } from './types'
+import type { Child, SessionState, WeekPlan } from './types'
 import { setSpeechRate } from './speech'
 
 export function useApp() {
@@ -15,7 +15,8 @@ export function useApp() {
 
   useEffect(() => {
     void (async () => {
-      const [c, s] = await Promise.all([loadChild(), loadCurrentSession()])
+      const [c, s, plan] = await Promise.all([loadChild(), loadCurrentSession(), getKV<WeekPlan>('weekPlan')])
+      setActiveWeekPlan(plan)
       if (c) setSpeechRate(c.speechRate)
       setChildState(c ?? null)
       sessionRef.current = s ?? null
@@ -46,6 +47,12 @@ export function useApp() {
     setSpeechRate(c.speechRate)
     setChildState(c)
     await saveChild(c)
+  }, [])
+
+  /** Save the parent's week plan (null = back to the built-in default). Applies from the next session. */
+  const saveWeekPlan = useCallback(async (plan: WeekPlan | null) => {
+    setActiveWeekPlan(plan)
+    await setKV('weekPlan', plan)
   }, [])
 
   const commit = useCallback((next: SessionState | null) => {
@@ -84,7 +91,7 @@ export function useApp() {
     [commit],
   )
 
-  return { loaded, child, setChild, session, start, dispatch, balance, sessionTokens }
+  return { loaded, child, setChild, session, start, dispatch, balance, sessionTokens, saveWeekPlan }
 }
 
 export type AppApi = ReturnType<typeof useApp>

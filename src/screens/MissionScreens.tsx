@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion'
 import { Art } from '../components/art/Art'
 import { HearButton, KidButton, useSpeakOnShow } from '../components/ui'
-import { cardById, chunkById, goalById, lines, personalize } from '../lib/content'
+import { cardById, chunkById, goalForChunk, lines, personalize } from '../lib/content'
 import { currentStop } from '../lib/session'
 import type { Child, RepCard, SessionState } from '../lib/types'
 
@@ -17,7 +17,7 @@ const TYPE_COLORS: Record<RepCard['type'], string> = {
 function goalFor(s: SessionState) {
   const stop = currentStop(s)
   if (stop.type !== 'focus') return undefined
-  return goalById(chunkById(stop.chunkId)?.goalId ?? '')
+  return goalForChunk(chunkById(stop.chunkId))
 }
 
 export function ChooseScreen({ s, child, onPick }: { s: SessionState; child: Child; onPick: (id: string) => void }) {

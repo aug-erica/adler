@@ -1,5 +1,17 @@
 [
   {
+    "id": "arm-bounce",
+    "label": "Arm bounce",
+    "iconKey": "armBounce",
+    "spokenPrompt": "Let your arm bounce, soft and loose, like a bouncy ball.",
+    "praiseLines": [
+      "Your arm bounced so softly!",
+      "Loose and bouncy on every note!",
+      "I saw your arm float up like a ball after each note.",
+      "Boing, boing! What a bouncy arm!"
+    ]
+  },
+  {
     "id": "rainbow-hand",
     "label": "Rainbow hand",
     "iconKey": "rainbowHand",

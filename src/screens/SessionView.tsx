@@ -1,7 +1,8 @@
 import { useCallback, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { LeafButton, ParentButton, ParentStrip, TokenCounter } from '../components/ui'
-import { chunkById, goalById, resetScripts, storyById, weekPlan } from '../lib/content'
+import { SessionProgress } from '../components/SessionProgress'
+import { chunkById, getWeekPlan, goalForChunk, resetScripts, storyById } from '../lib/content'
 import { chunkSizeLabel, currentStop, repsLabel, type Action } from '../lib/session'
 import type { Child, SessionState } from '../lib/types'
 import { BreakScreen } from './BreakScreen'
@@ -84,6 +85,7 @@ export function SessionView({ s, child, balance, sessionTokens, dispatch }: {
           </motion.div>
         </AnimatePresence>
       </div>
+      {s.phase !== 'map' && s.phase !== 'reset' && <SessionProgress s={s} />}
       <SessionParentStrip s={s} dispatch={dispatch} />
     </div>
   )
@@ -93,7 +95,7 @@ function SessionParentStrip({ s, dispatch }: { s: SessionState; dispatch: (a: Ac
   const [menu, setMenu] = useState(false)
   const stop = currentStop(s)
   const chunk = chunkById(stop.chunkId)
-  const goal = goalById(chunk?.goalId ?? '')
+  const goal = goalForChunk(chunk)
   const praise = goal ? goal.praiseLines[stop.repsDone % goal.praiseLines.length] : null
   const repStop = stop.type === 'warmup' || stop.type === 'focus' || stop.type === 'concert'
 
@@ -131,7 +133,7 @@ function SessionParentStrip({ s, dispatch }: { s: SessionState; dispatch: (a: Ac
     <ParentStrip>
       <div className="flex min-w-0 flex-1 flex-col gap-0.5">
         <div className="font-semibold text-ink">
-          {STOP_NAMES[stop.type]}
+          {stop.type === 'focus' && chunk ? chunk.label : STOP_NAMES[stop.type]}
           {repStop && stop.targetReps > 1 && ` · ${repsLabel(stop)}`}
           {stop.type === 'focus' && chunk && ` · ${chunkSizeLabel(stop)}`}
           {s.phase === 'map' && !s.started && ' · tap “Skip” under a stop to drop it'}
@@ -142,8 +144,8 @@ function SessionParentStrip({ s, dispatch }: { s: SessionState; dispatch: (a: Ac
             {praise && s.phase === 'card' && <> · Say: “{praise}”</>}
           </div>
         )}
-        {stop.type === 'warmup' && <div>Piece: {weekPlan.warmup.label}. Frame it as a superpower, not review.</div>}
-        {stop.type === 'concert' && <div>Piece: {weekPlan.concert.label}. One time through; you're the audience.</div>}
+        {stop.type === 'warmup' && <div>Piece: {getWeekPlan().warmup.label}. Frame it as a superpower, not review.</div>}
+        {stop.type === 'concert' && <div>Piece: {getWeekPlan().concert.label}. One time through; you're the audience.</div>}
       </div>
 
       {s.phase === 'card' && (

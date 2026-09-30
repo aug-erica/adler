@@ -1,6 +1,6 @@
 import { Art } from '../components/art/Art'
 import { KidButton } from '../components/ui'
-import { chunkById, goalById, lines } from '../lib/content'
+import { chunkById, goalForChunk, lines } from '../lib/content'
 import type { SessionState, Stop } from '../lib/types'
 import { useSpeakOnShow } from '../components/ui'
 
@@ -9,7 +9,7 @@ export function stopIcon(stop: Stop): string {
     case 'warmup':
       return 'star'
     case 'focus':
-      return goalById(chunkById(stop.chunkId)?.goalId ?? '')?.iconKey ?? 'note'
+      return goalForChunk(chunkById(stop.chunkId))?.iconKey ?? 'note'
     case 'break':
       return 'wiggle'
     case 'concert':

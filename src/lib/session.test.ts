@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 import { readdirSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { createSession, currentStop, drawOffer, FIRST_NOTE_WINDOW_MS, reduce, type Action } from './session'
-import { cardById, repCards, stories, weekPlan } from './content'
+import { cardById, chunkById, defaultWeekPlan as weekPlan, goalForChunk, repCards, setActiveWeekPlan, stories } from './content'
 import type { Award, SessionState } from './types'
 import { heldUntil } from './rewards'
 import rewards from '../content/rewards.json'
@@ -212,5 +212,32 @@ describe('content rules', () => {
     expect(heldUntil(tueMorning, rewards)).toBe(new Date(2026, 9, 6, 15, 0).getTime())
     expect(heldUntil(tueAfternoon, rewards)).toBeNull()
     expect(heldUntil(satMorning, rewards)).toBeNull()
+  })
+})
+
+describe('week plan set by the parent', () => {
+  it('uses the saved plan for the next session: goal, custom goal and missions per chunk', () => {
+    const plan = structuredClone(weekPlan)
+    plan.focusRepsPerChunk = 4
+    plan.chunks[0].goalId = 'arm-bounce'
+    setActiveWeekPlan(plan)
+    try {
+      const s = createSession(T0, stories[0].id)
+      const focus = s.stops.find((x) => x.type === 'focus')!
+      expect(focus.targetReps).toBe(4)
+      expect(focus.goalLabel).toBe('Arm bounce')
+      expect(goalForChunk(chunkById(focus.chunkId))?.spokenPrompt).toMatch(/bounce/)
+
+      plan.chunks[0].goalId = 'custom'
+      plan.chunks[0].customGoal = { label: 'Curved fingers', spokenPrompt: '' }
+      setActiveWeekPlan(plan)
+      const g = goalForChunk(chunkById(focus.chunkId))!
+      expect(g.label).toBe('Curved fingers')
+      expect(g.spokenPrompt).toBe('Think about your curved fingers.')
+      expect(g.praiseLines.length).toBeGreaterThan(0)
+    } finally {
+      setActiveWeekPlan(null)
+    }
+    expect(createSession(T0, stories[0].id).stops.find((x) => x.type === 'focus')!.targetReps).toBe(5)
   })
 })

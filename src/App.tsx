@@ -5,6 +5,7 @@ import { useApp } from './lib/useApp'
 import { HomeScreen } from './screens/HomeScreen'
 import { SessionView } from './screens/SessionView'
 import { SetupScreen } from './screens/SetupScreen'
+import { GrownUpScreen } from './screens/GrownUpScreen'
 
 export default function App() {
   const app = useApp()
@@ -13,15 +14,15 @@ export default function App() {
   if (!app.loaded) return null
 
   let body
-  if (!app.child || editing) {
+  if (!app.child) {
+    body = <SetupScreen initial={null} onSave={(c) => void app.setChild(c)} />
+  } else if (editing) {
     body = (
-      <SetupScreen
-        initial={app.child}
-        onCancel={app.child ? () => setEditing(false) : undefined}
-        onSave={(c) => {
-          void app.setChild(c)
-          setEditing(false)
-        }}
+      <GrownUpScreen
+        child={app.child}
+        onSaveChild={(c) => void app.setChild(c)}
+        onSaveWeek={app.saveWeekPlan}
+        onClose={() => setEditing(false)}
       />
     )
   } else if (app.session) {

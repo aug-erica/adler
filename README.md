@@ -32,13 +32,25 @@ A Short session runs five stops on a path the child can see: **Warm-up win → F
 - **Session log.** Every session saves reps per stop, resets, time to first note, how it ended and a rough/OK/good rating. It all stays on the iPad, for M2's charts.
 - Offline, installable to the Home Screen, and a closed app resumes where it left off.
 
+## This week's plan
+
+After each lesson, open **Grown-up settings → This week** on the home screen. There you set:
+- the focus chunk's name
+- its goal: pick one (arm bounce, rainbow hand, soft sound…) or type your own
+- missions per chunk (default 5)
+- what each Shrink size means
+- the warm-up and concert pieces
+- lesson notes
+
+Changes apply from the next session. During a session, a picture path at the bottom shows every stop, where you are, and one note per mission that fills in as he goes.
+
 ## Changing content
 
 Everything the child sees or hears lives in JSON under `src/content/`, so you can edit it without touching components:
 
 | File | What it holds |
 | --- | --- |
-| `weekPlan.json` | This week's warm-up, focus chunk (label, goal, full/half/tiny descriptions), concert, and **reps per chunk (5)** |
+| `weekPlan.json` | Default week plan (Grown-up settings overrides it): warm-up, focus chunk (label, goal, full/half/tiny descriptions), concert, and **reps per chunk (5)** |
 | `repCards.json` | The 20 mission cards |
 | `specialCards.json` | Warm-up, concert and "just one note" lines |
 | `goals.json` | Chunk goals, their spoken reminders and praise lines |

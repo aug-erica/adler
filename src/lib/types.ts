@@ -33,7 +33,8 @@ export interface Chunk {
   id: string
   pieceId: string
   label: string
-  goalId: string
+  goalId: string // an id from goals.json, or 'custom'
+  customGoal?: { label: string; spokenPrompt: string }
   sizes: Record<ChunkSize, string>
 }
 
@@ -107,6 +108,8 @@ export interface Stop {
   targetReps: number
   repsDone: number
   chunkId?: string
+  chunkLabel?: string // snapshot for the session log
+  goalLabel?: string
   size: ChunkSize
   repCardIds: string[]
   ratings: ('goal' | 'tried')[]

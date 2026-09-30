@@ -1,4 +1,4 @@
-import { chunkById, repCards, storyById, weekPlan } from './content'
+import { chunkById, getWeekPlan, goalForChunk, repCards, storyById } from './content'
 import type { Award, ChunkSize, SessionState, Stop } from './types'
 
 export const FIRST_NOTE_WINDOW_MS = 2 * 60 * 1000
@@ -8,7 +8,8 @@ const SHRINK: Record<ChunkSize, ChunkSize> = { full: 'half', half: 'tiny', tiny:
 
 /** Build today's Short session: warm-up → focus chunk → wiggle break → concert → treasure. */
 export function createSession(now: number, storyId: string, rand = Math.random): SessionState {
-  const chunk = weekPlan.chunks[0]
+  const plan = getWeekPlan()
+  const chunk = plan.chunks[0]
   const stop = (type: Stop['type'], targetReps: number, chunkId?: string): Stop => ({
     id: type,
     type,
@@ -16,6 +17,7 @@ export function createSession(now: number, storyId: string, rand = Math.random):
     targetReps,
     repsDone: 0,
     chunkId,
+    ...(chunkId ? { chunkLabel: chunk?.label, goalLabel: goalForChunk(chunk)?.label } : {}),
     size: 'full',
     repCardIds: [],
     ratings: [],
@@ -26,7 +28,7 @@ export function createSession(now: number, storyId: string, rand = Math.random):
     started: false,
     stops: [
       stop('warmup', 1),
-      stop('focus', weekPlan.focusRepsPerChunk, chunk?.id),
+      stop('focus', plan.focusRepsPerChunk, chunk?.id),
       stop('break', 0),
       stop('concert', 1),
       stop('treasure', 0),

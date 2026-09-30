@@ -367,6 +367,16 @@ const drawings: Record<string, (o: Opts) => ReactNode> = {
       <path d="M44 86 q0 -28 6 -28 q6 0 6 28" fill="none" stroke="#5aa9e6" strokeWidth={6} strokeLinecap="round" />
     </g>
   ),
+  armBounce: () => (
+    <g>
+      <rect x="8" y="78" width="84" height="18" rx="3" fill="#fff" {...S} />
+      <path d="M36 78 v18 M64 78 v18" stroke={INK} strokeWidth={2} />
+      <path d="M14 70 q12 -40 24 0 q12 -40 24 0 q12 -40 24 0" fill="none" stroke="#5aa9e6" strokeWidth={4} strokeLinecap="round" strokeDasharray="1 7" />
+      <circle cx="50" cy="30" r="14" fill="#f5c9a3" {...S} />
+      <path d="M40 40 v8 M46 42 v8 M54 42 v8 M60 40 v8" {...S} stroke="#e0a97c" strokeWidth={3} />
+      <path d="M26 12 q6 -6 12 0 M62 12 q6 -6 12 0" fill="none" {...S} stroke="#f2b33d" />
+    </g>
+  ),
   feather: () => (
     <g>
       <path d="M20 90 q10 -70 70 -80 q-10 60 -70 80z" fill="#d9f1ff" {...S} />
