@@ -13,10 +13,9 @@ import { ResetScreen } from './ResetScreen'
 import { StoryPageView } from './StoryScreen'
 import { TreasureScreen } from './TreasureScreen'
 
-export function SessionView({ s, child, balance, sessionTokens, dispatch }: {
+export function SessionView({ s, child, sessionTokens, dispatch }: {
   s: SessionState
   child: Child
-  balance: number
   sessionTokens: number
   dispatch: (a: Action) => void
 }) {
@@ -29,7 +28,6 @@ export function SessionView({ s, child, balance, sessionTokens, dispatch }: {
       <TreasureScreen
         s={s}
         child={child}
-        balance={balance}
         sessionTokens={sessionTokens}
         onEnd={(rating) => dispatch({ type: 'end', rating })}
       />

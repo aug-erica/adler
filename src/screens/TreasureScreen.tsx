@@ -2,22 +2,30 @@ import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { useLiveQuery } from 'dexie-react-hooks'
 import { Art } from '../components/art/Art'
-import { KidButton, ParentButton, ParentStrip, TokenCounter, useSpeakOnShow } from '../components/ui'
-import { lines, personalize, rewardSettings, storyById } from '../lib/content'
-import { db } from '../lib/db'
-import { heldUntil, screenMinutesToday } from '../lib/rewards'
+import { MinutePie } from '../components/MinutePie'
+import { KidButton, ParentButton, ParentStrip, useSpeakOnShow } from '../components/ui'
+import { lines, personalize, rewardSettings as settings, storyById } from '../lib/content'
+import { db, loadBank, saveBank } from '../lib/db'
+import { applyPick, currentBank, dayKey, heldUntil, possibleNotes, prizeMinutes, treasureOptions, weekOf } from '../lib/rewards'
 import { speak } from '../lib/speech'
-import { playToken } from '../lib/sound'
-import type { Child, Reward, SessionState } from '../lib/types'
+import { playBigToken, playToken } from '../lib/sound'
+import type { Child, Claim, SessionState } from '../lib/types'
 import { StoryPageView } from './StoryScreen'
 
 type Stage = 'finale' | 'chest' | 'bye'
 type Rating = 'rough' | 'ok' | 'good'
+type PickId = Claim['rewardId']
 
-export function TreasureScreen({ s, child, balance, sessionTokens, onEnd }: {
+const PICK_ICON: Record<PickId, string> = { show: 'tv', game: 'gamepad', candy: 'candy', bank: 'piggy' }
+const PICK_NAME: Record<PickId, string> = { show: 'Show', game: 'iPad game', candy: 'Candy', bank: 'Saved for the weekend' }
+
+function timeLabel(t: number) {
+  return new Date(t).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })
+}
+
+export function TreasureScreen({ s, child, sessionTokens, onEnd }: {
   s: SessionState
   child: Child
-  balance: number
   sessionTokens: number
   onEnd: (rating?: Rating) => void
 }) {
@@ -25,51 +33,59 @@ export function TreasureScreen({ s, child, balance, sessionTokens, onEnd }: {
   const [stage, setStage] = useState<Stage>('finale')
   const [rating, setRating] = useState<Rating | undefined>()
 
-  const claims = useLiveQuery(() => db.claims.where('sessionId').equals(s.id).toArray(), [s.id], [])
-  const todayClaims = useLiveQuery(
-    async () => {
-      const d = new Date()
-      d.setHours(0, 0, 0, 0)
-      return db.claims.where('at').aboveOrEqual(d.getTime()).toArray()
-    },
-    [],
-    [],
-  )
-  const minutesToday = screenMinutesToday(todayClaims)
+  const now = new Date()
+  const today = dayKey(now)
+  const todayClaims = useLiveQuery(() => db.claims.where('day').equals(today).toArray(), [today], [] as Claim[])
+  const bankRow = useLiveQuery(() => loadBank(), [], undefined)
+  const bank = currentBank(bankRow, now)
 
-  useSpeakOnShow(stage === 'chest' ? `${lines.treasureIntro} ${lines.treasurePick}` : null, stage)
+  const possible = possibleNotes(s)
+  const earned = Math.min(sessionTokens, possible)
+  const todayMinutes = prizeMinutes(sessionTokens, possible, settings)
+  const perfect = sessionTokens >= possible
+
+  const myPick = todayClaims.find((c) => c.sessionId === s.id)
+  const pickedEarlier = todayClaims.some((c) => c.sessionId !== s.id && c.rewardId !== 'bank')
+  const opts = treasureOptions({ todayMinutes, bankMinutes: bank, now, alreadyPicked: pickedEarlier, settings })
+  const weekendBonus = opts.fromBank > 0
+
+  const intro = `${perfect ? lines.treasurePerfect : lines.treasureIntro} ${
+    pickedEarlier ? lines.treasureAlreadyPicked : weekendBonus ? lines.treasureWeekend : lines.treasurePick
+  }`
+  useSpeakOnShow(stage === 'chest' && !myPick ? intro : null, stage)
 
   useEffect(() => {
     if (stage !== 'bye') return
     void speak(`${personalize(story.cliffhanger, child)} ${lines.allDone}`)
   }, [stage, story, child])
 
-  const claim = async (r: Reward) => {
-    if (balance < r.tokenCost) {
-      void speak(lines.treasureSaveUp)
+  const pick = async (id: PickId) => {
+    if (myPick) return
+    if (id === 'bank' ? !opts.canSave : !opts.canPick[id]) {
+      if (id === 'candy') void speak(lines.treasureCandyNotYet)
       return
     }
-    if (r.screenMinutes && minutesToday + r.screenMinutes > rewardSettings.dailyScreenMinutesCap) {
-      void speak(lines.treasureCap)
-      return
-    }
-    const now = Date.now()
-    const held = r.screenMinutes ? heldUntil(new Date(now), rewardSettings) : null
-    await db.transaction('rw', db.ledger, db.claims, async () => {
-      await db.ledger.add({ sessionId: s.id, amount: -r.tokenCost, reason: `reward:${r.id}`, timestamp: now })
-      await db.claims.add({ sessionId: s.id, rewardId: r.id, at: now, heldUntil: held, screenMinutes: r.screenMinutes })
+    const at = Date.now()
+    const { screenMinutes, bankDelta } = applyPick(id, opts, todayMinutes, settings)
+    const held = screenMinutes > 0 ? heldUntil(new Date(at), settings) : null
+    await db.transaction('rw', db.claims, db.kv, async () => {
+      await db.claims.add({ sessionId: s.id, rewardId: id, at, day: today, heldUntil: held, screenMinutes, bankDelta })
+      if (bankDelta) await saveBank({ weekOf: weekOf(new Date(at)), minutes: Math.max(0, bank + bankDelta) })
     })
-    playToken()
-    void speak(held ? `${lines.treasureYay} ${lines.treasureHeld}` : lines.treasureYay)
+    if (id === 'bank') {
+      playToken()
+      void speak(lines.treasureSavedForWeekend)
+    } else {
+      playBigToken()
+      void speak(held ? `${lines.treasureYay} ${lines.treasureHeld}` : lines.treasureYay)
+    }
   }
 
-  const undoLast = async () => {
-    const last = claims[claims.length - 1]
-    if (!last?.id) return
-    const r = rewardSettings.rewards.find((x) => x.id === last.rewardId)
-    await db.transaction('rw', db.ledger, db.claims, async () => {
-      await db.claims.delete(last.id!)
-      if (r) await db.ledger.add({ sessionId: s.id, amount: r.tokenCost, reason: 'refund', timestamp: Date.now() })
+  const undo = async () => {
+    if (!myPick?.id) return
+    await db.transaction('rw', db.claims, db.kv, async () => {
+      await db.claims.delete(myPick.id!)
+      if (myPick.bankDelta) await saveBank({ weekOf: weekOf(now), minutes: Math.max(0, bank - myPick.bankDelta) })
     })
   }
 
@@ -107,67 +123,100 @@ export function TreasureScreen({ s, child, balance, sessionTokens, onEnd }: {
     )
   }
 
-  const held = claims.filter((c) => c.heldUntil && c.heldUntil > Date.now())
-  const now = claims.filter((c) => !(c.heldUntil && c.heldUntil > Date.now()))
+  const isHeld = !!myPick?.heldUntil && myPick.heldUntil > Date.now()
 
   return (
     <div className="flex h-full flex-col">
       <div className="flex min-h-0 flex-1 items-center justify-around gap-6 p-4">
+        {/* Left: how full today's prize is */}
         <div className="flex flex-col items-center gap-4">
           <motion.div initial={{ rotate: -6, scale: 0.8 }} animate={{ rotate: 0, scale: 1 }} transition={{ type: 'spring', bounce: 0.6 }}>
-            <Art name="chestOpen" className="h-60 w-60" />
+            <Art name="chestOpen" className="h-44 w-44" />
           </motion.div>
-          <TokenCounter count={balance} />
-        </div>
-        <div className="flex flex-col gap-4">
-          {rewardSettings.rewards.map((r) => {
-            const affordable = balance >= r.tokenCost
-            return (
-              <KidButton
-                key={r.id}
-                label={r.label}
-                onClick={() => void claim(r)}
-                className={`flex h-28 w-[min(44vw,26rem)] items-center gap-4 rounded-[2rem]! px-5 ${affordable ? 'bg-white' : 'bg-white/50 opacity-60'}`}
-              >
-                <Art name={r.iconKey} className="h-20 w-20 shrink-0" />
-                <div className="flex flex-wrap items-center">
-                  {Array.from({ length: r.tokenCost }, (_, i) => (
-                    <Art key={i} name="note" className="h-8 w-8" />
-                  ))}
-                </div>
-              </KidButton>
-            )
-          })}
-        </div>
-        <div className="flex max-w-56 flex-col items-center gap-3">
-          <div className="flex flex-wrap justify-center gap-1">
-            {now.map((c) => (
-              <Art key={c.id} name={rewardSettings.rewards.find((r) => r.id === c.rewardId)?.iconKey ?? 'star'} className="h-14 w-14" />
+          <div className="flex max-w-72 flex-wrap justify-center gap-0.5 rounded-3xl border-4 border-ink/30 bg-white p-2" aria-label={`${earned} of ${possible} notes`}>
+            {Array.from({ length: possible }, (_, i) => (
+              <Art key={i} name="note" className={`h-8 w-8 ${i < earned ? '' : 'opacity-15 grayscale'}`} />
             ))}
           </div>
-          {held.length > 0 && (
-            <div className="flex flex-col items-center rounded-3xl border-4 border-ink/30 bg-white/70 p-3">
-              <Art name="house" className="h-20 w-20" />
-              <div className="flex flex-wrap justify-center gap-1">
-                {held.map((c) => (
-                  <Art key={c.id} name={rewardSettings.rewards.find((r) => r.id === c.rewardId)?.iconKey ?? 'star'} className="h-10 w-10" />
-                ))}
-              </div>
+          <MinutePie minutes={todayMinutes} full={settings.fullPrizeMinutes} size={88} />
+          {weekendBonus && (
+            <div className="flex items-center gap-2">
+              <span className="text-4xl font-extrabold text-ink/60">+</span>
+              <Art name="piggy" className="h-16 w-16" />
+              <MinutePie minutes={opts.fromBank} full={settings.fullPrizeMinutes} size={56} color="#f7a8c8" />
             </div>
           )}
         </div>
+
+        {/* Right: the one pick for today, or what was picked */}
+        {myPick ? (
+          <motion.div
+            initial={{ scale: 0.5, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ type: 'spring', bounce: 0.5 }}
+            className="flex flex-col items-center gap-4 rounded-[2.5rem] border-4 border-ink bg-white p-8 shadow-[0_8px_0_#3b2f2f]"
+          >
+            <Art name={PICK_ICON[myPick.rewardId]} className="h-44 w-44" />
+            {myPick.screenMinutes > 0 && <MinutePie minutes={myPick.screenMinutes} full={settings.fullPrizeMinutes} size={72} />}
+            {myPick.rewardId === 'bank' && <MinutePie minutes={bank} full={settings.fullPrizeMinutes} size={72} color="#f7a8c8" />}
+            {isHeld && (
+              <div className="flex items-center gap-2 rounded-2xl bg-calm px-4 py-2">
+                <Art name="house" className="h-14 w-14" />
+                <Art name="sun" className="h-10 w-10" />
+              </div>
+            )}
+          </motion.div>
+        ) : (
+          <div className="grid grid-cols-2 gap-4">
+            {settings.choices.map((c) => {
+              const ok = opts.canPick[c.id]
+              return (
+                <KidButton
+                  key={c.id}
+                  label={c.label}
+                  onClick={() => void pick(c.id)}
+                  className={`flex h-40 w-[min(22vw,15rem)] flex-col items-center justify-center gap-2 rounded-[2rem]! ${ok ? 'bg-white' : 'bg-white/50 opacity-40'}`}
+                >
+                  <Art name={c.iconKey} className="h-20 w-20" />
+                  {c.kind === 'screen' && ok && <MinutePie minutes={opts.available} full={settings.fullPrizeMinutes} size={36} />}
+                </KidButton>
+              )
+            })}
+            {opts.canSave && (
+              <KidButton
+                label="Save for the weekend"
+                onClick={() => void pick('bank')}
+                className="flex h-40 w-[min(22vw,15rem)] flex-col items-center justify-center gap-2 rounded-[2rem]! bg-[#fde8f0]!"
+              >
+                <Art name="piggy" className="h-20 w-20" />
+                <MinutePie minutes={todayMinutes} full={settings.fullPrizeMinutes} size={36} color="#f7a8c8" />
+              </KidButton>
+            )}
+          </div>
+        )}
       </div>
       <ParentStrip>
-        <div className="flex flex-col">
+        <div className="flex min-w-0 flex-1 flex-col">
           <span>
-            Earned today: <b>{sessionTokens}</b> · Saved total: <b>{balance}</b> · Screen time today: {minutesToday}/{rewardSettings.dailyScreenMinutesCap} min
+            Notes: <b>{sessionTokens}</b> of {possible} → <b>{todayMinutes} min</b> prize (full = {settings.fullPrizeMinutes})
+            {' · '}Weekend bank: <b>{bank} min</b>
+            {weekendBonus && ` (${opts.fromBank} min added today)`}
           </span>
-          {held.length > 0 && <span>Screen-time rewards are waiting for after school ({rewardSettings.afterSchoolHour}:00).</span>}
+          <span>
+            {myPick
+              ? `Today's pick: ${PICK_NAME[myPick.rewardId]}${myPick.screenMinutes ? `, ${myPick.screenMinutes} min` : ''}${
+                  myPick.rewardId === 'candy' && myPick.bankDelta > 0 ? ` (${myPick.bankDelta} min saved)` : ''
+                }${isHeld ? `, unlocks after school at ${timeLabel(myPick.heldUntil!)}` : ''}`
+              : pickedEarlier
+                ? opts.canSave
+                  ? "Today's prize was already picked, so these minutes can only be saved for the weekend."
+                  : "Today's prize was already picked."
+                : `One pick per day: a show OR a game, or candy instead (${settings.candyCostMinutes} min), or save it.`}
+          </span>
         </div>
-        <div className="flex-1" />
-        {claims.length > 0 && (
-          <ParentButton onClick={() => void undoLast()} variant="quiet">
-            Undo last pick
+        {myPick && (
+          <ParentButton onClick={() => void undo()} variant="quiet">
+            Undo pick
           </ParentButton>
         )}
         <ParentButton variant="primary" onClick={() => setStage('bye')}>

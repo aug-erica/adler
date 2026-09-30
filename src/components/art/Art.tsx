@@ -377,6 +377,19 @@ const drawings: Record<string, (o: Opts) => ReactNode> = {
       <path d="M26 12 q6 -6 12 0 M62 12 q6 -6 12 0" fill="none" {...S} stroke="#f2b33d" />
     </g>
   ),
+  piggy: () => (
+    <g>
+      <path d="M30 88 v8 M68 88 v8" {...S} strokeWidth={6} />
+      <ellipse cx="50" cy="60" rx="38" ry="30" fill="#f7a8c8" {...S} />
+      <path d="M26 36 l-4 -16 l16 8z" fill="#f7a8c8" {...S} />
+      <ellipse cx="86" cy="60" rx="9" ry="11" fill="#f28c9c" {...S} />
+      <circle cx="84" cy="57" r="1.8" fill={INK} />
+      <circle cx="88" cy="63" r="1.8" fill={INK} />
+      <circle cx="68" cy="48" r="3.2" fill={INK} />
+      <rect x="40" y="28" width="20" height="5" rx="2.5" fill={INK} />
+      <path d="M12 58 q-10 -2 -8 -12" fill="none" {...S} />
+    </g>
+  ),
   feather: () => (
     <g>
       <path d="M20 90 q10 -70 70 -80 q-10 60 -70 80z" fill="#d9f1ff" {...S} />

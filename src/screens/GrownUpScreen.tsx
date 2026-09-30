@@ -4,8 +4,11 @@ import { Art } from '../components/art/Art'
 import { defaultWeekPlan, getWeekPlan, goals } from '../lib/content'
 import type { Child, WeekPlan } from '../lib/types'
 import { SetupScreen } from './SetupScreen'
+import { resets } from '../lib/db'
 
-type Tab = 'week' | 'buddy'
+const TAB_NAMES: Record<Tab, string> = { week: 'This week', buddy: 'Buddy & voice', reset: 'Reset' }
+
+type Tab = 'week' | 'buddy' | 'reset'
 
 export function GrownUpScreen({ child, onSaveChild, onSaveWeek, onClose }: {
   child: Child
@@ -18,20 +21,18 @@ export function GrownUpScreen({ child, onSaveChild, onSaveWeek, onClose }: {
     <div className="flex h-full flex-col">
       <div className="flex shrink-0 items-center gap-2 border-b-2 border-ink/10 bg-white/70 px-4 py-3">
         <span className="mr-4 text-lg font-bold">Grown-up settings</span>
-        {(['week', 'buddy'] as Tab[]).map((t) => (
+        {(['week', 'buddy', 'reset'] as Tab[]).map((t) => (
           <ParentButton key={t} variant={tab === t ? 'primary' : 'plain'} onClick={() => setTab(t)}>
-            {t === 'week' ? 'This week' : 'Buddy & voice'}
+            {TAB_NAMES[t]}
           </ParentButton>
         ))}
         <div className="flex-1" />
         <ParentButton onClick={onClose}>Close</ParentButton>
       </div>
       <div className="min-h-0 flex-1 overflow-y-auto">
-        {tab === 'week' ? (
-          <WeekPlanEditor onSave={onSaveWeek} />
-        ) : (
-          <SetupScreen initial={child} onSave={onSaveChild} />
-        )}
+        {tab === 'week' && <WeekPlanEditor onSave={onSaveWeek} />}
+        {tab === 'buddy' && <SetupScreen initial={child} onSave={onSaveChild} />}
+        {tab === 'reset' && <ResetPanel />}
       </div>
     </div>
   )
@@ -187,6 +188,62 @@ function WeekPlanEditor({ onSave }: { onSave: (p: WeekPlan | null) => Promise<vo
           Save this week
         </ParentButton>
       </div>
+    </div>
+  )
+}
+
+const RESET_ACTIONS: { key: keyof typeof resets; title: string; detail: string; confirm: string }[] = [
+  {
+    key: 'stories',
+    title: 'Start the stories over',
+    detail: 'The next session begins with episode 1. Nothing else changes.',
+    confirm: 'Start the stories from episode 1?',
+  },
+  {
+    key: 'prizes',
+    title: 'Clear prizes and the weekend bank',
+    detail: "Removes today's pick and empties the weekend bank.",
+    confirm: "Clear today's prize picks and empty the weekend bank?",
+  },
+  {
+    key: 'history',
+    title: 'Clear practice history',
+    detail: 'Deletes the session log and all earned notes. Use this after testing, before the real trial starts.',
+    confirm: 'Delete all session history and notes? This cannot be undone.',
+  },
+  {
+    key: 'everything',
+    title: 'Reset everything',
+    detail: 'Back to a fresh install: buddy, this week’s plan, stories, prizes and history are all erased.',
+    confirm: 'Erase everything and start over from the buddy picker? This cannot be undone.',
+  },
+]
+
+function ResetPanel() {
+  const [done, setDone] = useState<string | null>(null)
+  return (
+    <div className="mx-auto flex max-w-3xl flex-col gap-3 p-6 text-base">
+      <p className="text-sm text-ink/60">Handy after testing it yourself. Each one asks before it does anything.</p>
+      {RESET_ACTIONS.map((a) => (
+        <div key={a.key} className="flex items-center gap-4 rounded-3xl border-2 border-ink/15 bg-white/80 p-4">
+          <div className="flex-1">
+            <div className="font-semibold">{a.title}</div>
+            <div className="text-sm text-ink/60">{a.detail}</div>
+          </div>
+          {done === a.key && <span className="text-sm text-ink/60">Done ✓</span>}
+          <ParentButton
+            className={a.key === 'everything' ? 'border-[#e25b5b]! text-[#b23a3a]!' : ''}
+            onClick={async () => {
+              if (!window.confirm(a.confirm)) return
+              await resets[a.key]()
+              if (a.key === 'everything') window.location.reload()
+              else setDone(a.key)
+            }}
+          >
+            {a.key === 'everything' ? 'Erase all' : 'Reset'}
+          </ParentButton>
+        </div>
+      ))}
     </div>
   )
 }

@@ -1,10 +1,12 @@
 {
-  "rewards": [
-    { "id": "game-minute", "label": "1 minute of iPad game", "iconKey": "gamepad", "tokenCost": 1, "screenMinutes": 1 },
-    { "id": "candy", "label": "A small candy", "iconKey": "candy", "tokenCost": 5, "screenMinutes": 0 },
-    { "id": "show", "label": "A show episode", "iconKey": "tv", "tokenCost": 8, "screenMinutes": 20 }
+  "fullPrizeMinutes": 30,
+  "candyCostMinutes": 15,
+  "weekendBankCapMinutes": 60,
+  "choices": [
+    { "id": "show", "label": "A show", "iconKey": "tv", "kind": "screen" },
+    { "id": "game", "label": "An iPad game", "iconKey": "gamepad", "kind": "screen" },
+    { "id": "candy", "label": "A small candy", "iconKey": "candy", "kind": "candy" }
   ],
-  "dailyScreenMinutesCap": 30,
   "schoolDays": [1, 2, 3, 4, 5],
   "afterSchoolHour": 15
 }

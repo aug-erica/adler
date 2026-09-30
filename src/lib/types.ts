@@ -82,17 +82,21 @@ export interface Story {
   cliffhanger: string
 }
 
-export interface Reward {
-  id: string
+export interface RewardChoice {
+  id: 'show' | 'game' | 'candy'
   label: string
   iconKey: string
-  tokenCost: number
-  screenMinutes: number
+  kind: 'screen' | 'candy'
 }
 
 export interface RewardSettings {
-  rewards: Reward[]
-  dailyScreenMinutesCap: number
+  /** Minutes a perfect practice earns. A partial practice earns its share. */
+  fullPrizeMinutes: number
+  /** Candy replaces screen time for the day and uses this many of the day's minutes. */
+  candyCostMinutes: number
+  /** Most minutes the weekend bank can hold. */
+  weekendBankCapMinutes: number
+  choices: RewardChoice[]
   schoolDays: number[]
   afterSchoolHour: number
 }
@@ -173,13 +177,23 @@ export interface LedgerEntry {
   timestamp: number
 }
 
+/** The day's one pick at Treasure (or minutes saved for the weekend). */
 export interface Claim {
   id?: number
   sessionId: string
-  rewardId: string
+  rewardId: 'show' | 'game' | 'candy' | 'bank'
   at: number
+  day: string // YYYY-MM-DD, local
   heldUntil: number | null
+  /** Screen minutes granted now (show/game), 0 otherwise. */
   screenMinutes: number
+  /** Minutes moved into (+) or out of (−) the weekend bank by this pick. */
+  bankDelta: number
+}
+
+export interface WeekendBank {
+  weekOf: string // Monday, YYYY-MM-DD
+  minutes: number
 }
 
 export interface SessionLog extends SessionState {

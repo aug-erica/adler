@@ -1,10 +1,11 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
-import { db, getKV, loadChild, loadCurrentSession, nextStoryIndex, saveChild, saveCurrentSession, setKV } from './db'
+import { db, getKV, loadBank, loadChild, loadCurrentSession, nextStoryIndex, saveChild, saveCurrentSession, setKV } from './db'
 import { setActiveWeekPlan, stories } from './content'
 import { createSession, reduce, type Action } from './session'
 import type { Child, SessionState, WeekPlan } from './types'
 import { setSpeechRate } from './speech'
+import { currentBank } from './rewards'
 
 export function useApp() {
   const [loaded, setLoaded] = useState(false)
@@ -25,13 +26,7 @@ export function useApp() {
     })()
   }, [])
 
-  const balance = useLiveQuery(async () => {
-    let sum = 0
-    await db.ledger.each((e) => {
-      sum += e.amount
-    })
-    return sum
-  }, [], 0)
+  const bank = useLiveQuery(async () => currentBank(await loadBank(), new Date()), [], 0)
 
   const sessionTokens = useLiveQuery(
     async () => {
@@ -91,7 +86,7 @@ export function useApp() {
     [commit],
   )
 
-  return { loaded, child, setChild, session, start, dispatch, balance, sessionTokens, saveWeekPlan }
+  return { loaded, child, setChild, session, start, dispatch, bank, sessionTokens, saveWeekPlan }
 }
 
 export type AppApi = ReturnType<typeof useApp>

@@ -2,10 +2,9 @@ import { describe, expect, it } from 'vitest'
 import { readdirSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { createSession, currentStop, drawOffer, FIRST_NOTE_WINDOW_MS, reduce, type Action } from './session'
-import { cardById, chunkById, defaultWeekPlan as weekPlan, goalForChunk, repCards, setActiveWeekPlan, stories } from './content'
+import { cardById, chunkById, defaultWeekPlan as weekPlan, goalForChunk, repCards, rewardSettings as rewards, setActiveWeekPlan, stories } from './content'
 import type { Award, SessionState } from './types'
-import { heldUntil } from './rewards'
-import rewards from '../content/rewards.json'
+import { applyPick, currentBank, heldUntil, possibleNotes, prizeMinutes, treasureOptions, weekOf } from './rewards'
 
 const T0 = 1_700_000_000_000
 
@@ -239,5 +238,61 @@ describe('week plan set by the parent', () => {
       setActiveWeekPlan(null)
     }
     expect(createSession(T0, stories[0].id).stops.find((x) => x.type === 'focus')!.targetReps).toBe(5)
+  })
+})
+
+describe('rewards: one prize a day', () => {
+  const tue = new Date(2026, 9, 6, 7, 30)
+  const sat = new Date(2026, 9, 10, 9, 0)
+
+  it('a perfect Short session is 10 notes and earns the full 30 minutes; less earns its share', () => {
+    const s = createSession(T0, stories[0].id)
+    expect(possibleNotes(s)).toBe(10)
+    expect(prizeMinutes(10, 10, rewards)).toBe(30)
+    expect(prizeMinutes(12, 10, rewards)).toBe(30) // comeback bonus can't exceed a full prize
+    expect(prizeMinutes(6, 10, rewards)).toBe(18)
+    expect(prizeMinutes(0, 10, rewards)).toBe(0)
+  })
+
+  it('skipping a stop before starting lowers what counts as perfect', () => {
+    let s = createSession(T0, stories[0].id)
+    s = reduce(s, { type: 'toggleStop', stopId: 'concert' }, T0).state
+    expect(possibleNotes(s)).toBe(9)
+  })
+
+  it('weekday: show or game uses all of today’s minutes; candy needs 15 and saves the rest', () => {
+    const o = treasureOptions({ todayMinutes: 24, bankMinutes: 10, now: tue, alreadyPicked: false, settings: rewards })
+    expect(o.available).toBe(24) // bank is for the weekend
+    expect(o.canPick).toEqual({ show: true, game: true, candy: true })
+    expect(o.canSave).toBe(true)
+    expect(applyPick('show', o, 24, rewards)).toEqual({ screenMinutes: 24, bankDelta: 0 })
+    expect(applyPick('candy', o, 24, rewards)).toEqual({ screenMinutes: 0, bankDelta: 9 })
+    expect(applyPick('bank', o, 24, rewards)).toEqual({ screenMinutes: 0, bankDelta: 24 })
+
+    const low = treasureOptions({ todayMinutes: 9, bankMinutes: 0, now: tue, alreadyPicked: false, settings: rewards })
+    expect(low.canPick.candy).toBe(false)
+    expect(low.canPick.show).toBe(true)
+  })
+
+  it('only one pick a day', () => {
+    const o = treasureOptions({ todayMinutes: 30, bankMinutes: 0, now: tue, alreadyPicked: true, settings: rewards })
+    expect(o.canPick).toEqual({ show: false, game: false, candy: false })
+    expect(o.canSave).toBe(true)
+  })
+
+  it('weekend: the bank adds to today’s prize (up to the cap) and is spent by the pick', () => {
+    const o = treasureOptions({ todayMinutes: 20, bankMinutes: 90, now: sat, alreadyPicked: false, settings: rewards })
+    expect(o.fromBank).toBe(60)
+    expect(o.available).toBe(80)
+    expect(o.canSave).toBe(false)
+    expect(applyPick('game', o, 20, rewards)).toEqual({ screenMinutes: 80, bankDelta: -60 })
+    const small = treasureOptions({ todayMinutes: 5, bankMinutes: 20, now: sat, alreadyPicked: false, settings: rewards })
+    expect(applyPick('candy', small, 5, rewards)).toEqual({ screenMinutes: 0, bankDelta: -10 })
+  })
+
+  it('the bank starts empty each Monday', () => {
+    const bank = { weekOf: weekOf(tue), minutes: 40 }
+    expect(currentBank(bank, sat)).toBe(40)
+    expect(currentBank(bank, new Date(2026, 9, 12, 8, 0))).toBe(0)
   })
 })

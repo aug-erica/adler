@@ -15,20 +15,20 @@ A Short session runs five stops on a path the child can see: **Warm-up win → F
   - **Leaf**: starts Reset mode.
   - **•••**: skip this stop, or finish for today.
   - It also shows a ready-made praise line for the goal.
-- **Tokens.** 1 per rep, plus bonuses:
+- **Notes (tokens).** 1 per rep, plus bonuses:
   - +1 if the first note comes within 2 minutes of Start.
   - +2 for finishing the planned session.
   - +2 for coming back from Reset.
 
-  Nothing is ever taken away. Tokens only go down when he trades them for a reward.
+  Nothing is ever taken away.
 - **Stories.** Each rep unlocks the next page of an illustrated episode, read aloud with word highlighting where the voice supports it. There are 3 episodes, each ending on a cliffhanger.
 - **Reset mode.** A calm screen with no tokens visible. He picks the balloon (6 breaths) or the squishy (6 squeezes), with dots showing the break has an end. Next comes "just one note", which counts as a rep and earns the comeback bonus. The session then resumes at a smaller chunk, or goes straight to Treasure. The parent sees coaching lines throughout.
-- **Treasure.** He trades tokens for rewards:
-  - 1 token = 1 minute of iPad game (daily cap of 30 screen minutes)
-  - 5 tokens = a small candy
-  - 8 tokens = a show episode
+- **Treasure: one prize a day.** A perfect practice fills the prize (10 of 10 notes in a Short session) and earns **30 minutes**. A partial practice earns its share; for example, 6 of 10 notes earns 18 minutes. He sees the prize as a pie filling up. Then he makes **one pick**:
+  - **A show** or **an iPad game**, for the minutes he earned.
+  - **A small candy instead of screen time** (uses 15 minutes; the rest go to the weekend bank).
+  - **Save it for the weekend** (the piggy bank).
 
-  On school-day mornings, screen-time rewards are held until 3 pm ("waiting for after school").
+  On Saturday and Sunday, the weekend bank adds to that day's prize (up to 60 minutes). The bank starts empty each Monday. On school-day mornings, screen time waits until 3 pm. You can change all of these numbers in `src/content/rewards.json`.
 - **Session log.** Every session saves reps per stop, resets, time to first note, how it ended and a rough/OK/good rating. It all stays on the iPad, for M2's charts.
 - Offline, installable to the Home Screen, and a closed app resumes where it left off.
 
@@ -42,7 +42,7 @@ After each lesson, open **Grown-up settings → This week** on the home screen. 
 - the warm-up and concert pieces
 - lesson notes
 
-Changes apply from the next session. During a session, a picture path at the bottom shows every stop, where you are, and one note per mission that fills in as he goes.
+Changes apply from the next session. **Grown-up settings → Reset** can start the stories over, clear prizes and the weekend bank, clear practice history (useful after testing), or erase everything. During a session, a picture path at the bottom shows every stop, where you are, and one note per mission that fills in as he goes.
 
 ## Changing content
 
@@ -55,7 +55,7 @@ Everything the child sees or hears lives in JSON under `src/content/`, so you ca
 | `specialCards.json` | Warm-up, concert and "just one note" lines |
 | `goals.json` | Chunk goals, their spoken reminders and praise lines |
 | `stories.json` | Episodes: 7 pages each (intro after warm-up, one per focus rep, finale at Treasure) plus a cliffhanger. `{child}` and `{buddy}` are filled in. |
-| `rewards.json` | Reward menu, token costs, screen-time cap, school days and after-school hour |
+| `rewards.json` | Full-prize minutes, candy cost, weekend bank cap, the prize choices, school days and after-school hour |
 | `lines.json` | Everything the buddy says |
 | `resetScripts.json` | Parent coaching lines in Reset mode |
 | `pieces.json` | Suzuki Book 1 list and statuses |

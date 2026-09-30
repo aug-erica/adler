@@ -1,17 +1,21 @@
 import { Art } from '../components/art/Art'
-import { GoArrow, KidButton, TokenCounter } from '../components/ui'
-import { lines, personalize } from '../lib/content'
+import { GoArrow, KidButton } from '../components/ui'
+import { MinutePie } from '../components/MinutePie'
+import { lines, personalize, rewardSettings } from '../lib/content'
 import { speak } from '../lib/speech'
 import { unlockAudio } from '../lib/sound'
 import type { Child } from '../lib/types'
 
-export function HomeScreen({ child, balance, onStart, onSettings }: { child: Child; balance: number; onStart: () => void; onSettings: () => void }) {
+export function HomeScreen({ child, bank, onStart, onSettings }: { child: Child; bank: number; onStart: () => void; onSettings: () => void }) {
   const hello = personalize(lines.homeHello, child)
   return (
     <div className="relative flex h-full flex-col items-center justify-center gap-6 p-6">
-      <div className="absolute top-5 right-5">
-        <TokenCounter count={balance} />
-      </div>
+      {bank > 0 && (
+        <div className="absolute top-5 right-5 flex items-center gap-2 rounded-full border-4 border-ink bg-white px-3 py-1 shadow-[0_4px_0_#3b2f2f]" aria-label={`Weekend treasure: ${bank} minutes`}>
+          <Art name="piggy" className="h-12 w-12" />
+          <MinutePie minutes={bank} full={rewardSettings.fullPrizeMinutes} size={40} color="#f7a8c8" />
+        </div>
+      )}
       <button
         type="button"
         aria-label={`${child.buddyName} says hi`}

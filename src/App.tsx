@@ -30,13 +30,12 @@ export default function App() {
       <SessionView
         s={app.session}
         child={app.child}
-        balance={app.balance}
         sessionTokens={app.sessionTokens}
         dispatch={app.dispatch}
       />
     )
   } else {
-    body = <HomeScreen child={app.child} balance={app.balance} onStart={() => void app.start()} onSettings={() => setEditing(true)} />
+    body = <HomeScreen child={app.child} bank={app.bank} onStart={() => void app.start()} onSettings={() => setEditing(true)} />
   }
 
   return (

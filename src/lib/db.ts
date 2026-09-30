@@ -1,5 +1,5 @@
 import Dexie, { type EntityTable } from 'dexie'
-import type { Child, Claim, LedgerEntry, SessionLog, SessionState } from './types'
+import type { Child, Claim, LedgerEntry, SessionLog, SessionState, WeekendBank } from './types'
 
 interface KV {
   key: string
@@ -20,6 +20,10 @@ class PianoDB extends Dexie {
       ledger: '++id, sessionId, timestamp',
       claims: '++id, sessionId, at',
     })
+    // v2: one pick a day + weekend bank. Old per-item claims don't fit the new model.
+    this.version(2)
+      .stores({ claims: '++id, sessionId, at, day' })
+      .upgrade((tx) => tx.table('claims').clear())
   }
 }
 
@@ -42,10 +46,23 @@ export async function nextStoryIndex(): Promise<number> {
   return (await getKV<number>('nextStoryIndex')) ?? 0
 }
 
-export async function balance(): Promise<number> {
-  let sum = 0
-  await db.ledger.each((e) => {
-    sum += e.amount
-  })
-  return sum
+export const loadBank = () => getKV<WeekendBank>('weekendBank')
+export const saveBank = (b: WeekendBank) => setKV('weekendBank', b)
+
+/** Grown-up resets. */
+export const resets = {
+  async stories() {
+    await setKV('nextStoryIndex', 0)
+  },
+  async prizes() {
+    await db.claims.clear()
+    await db.kv.delete('weekendBank')
+  },
+  async history() {
+    await db.sessions.clear()
+    await db.ledger.clear()
+  },
+  async everything() {
+    await db.delete()
+  },
 }

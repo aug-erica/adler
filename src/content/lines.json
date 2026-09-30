@@ -20,10 +20,8 @@
   ],
   "breakDone": "Great wiggling! Back to the piano.",
   "storyNext": "Tap the arrow for your next mission!",
-  "treasureIntro": "We made it to the treasure! Look at all your notes!",
-  "treasurePick": "What would you like?",
-  "treasureHeld": "That one is waiting for you after school!",
-  "treasureSaved": "You can save your notes for something bigger, too.",
+  "treasureIntro": "We made it to the treasure! Look how full your prize is!",
+  "treasurePick": "Pick one prize for today. A show, or a game? Or save it for the weekend!",
   "resetIntro": "Whoa, big feelings. Let's take a break together.",
   "resetChoose": "Do you want to blow up the balloon, or squeeze the squishy?",
   "resetBreathe": "Breathe in slow, and watch the balloon grow. Breathe out, and let it go.",
@@ -32,7 +30,11 @@
   "resetWelcomeBack": "You came back! That's the bravest thing. Here's a special note for you!",
   "finishToday": "We're done for today. Let's go see your treasure!",
   "allDone": "Bye bye! See you tomorrow!",
-  "treasureSaveUp": "Let's save up for that one! Keep collecting notes.",
-  "treasureCap": "That's all the screen time for today. Pick something else, or save your notes!",
-  "treasureYay": "Great choice!"
+  "treasurePerfect": "Wow, a perfect practice! Your prize is all the way full!",
+  "treasureWeekend": "It's the weekend! Your saved treasure is here too. Pick one prize!",
+  "treasureYay": "Great choice!",
+  "treasureHeld": "It's waiting for you after school!",
+  "treasureSavedForWeekend": "Saved! Your weekend treasure is getting bigger.",
+  "treasureCandyNotYet": "Candy needs a fuller prize. You can pick a show, a game, or save it for the weekend!",
+  "treasureAlreadyPicked": "You already picked today's prize! Let's save these notes for the weekend."
 }
